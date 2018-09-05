@@ -1,0 +1,27 @@
+[
+    {
+        "pergunta"      : "Pergunta1: Pimba na gorduchina?",
+        "respostas"     : ["É.", "Não é."],
+        "resp_certa"    : 0
+    },
+    {
+        "pergunta"      : "Pergunta2: Abobrinha doce?",
+        "respostas"     : ["Pois não.", "Pois é.", "Pois sim"],
+        "resp_certa"    : 1
+    },
+    {
+        "pergunta"      : "Pergunta3: Pimba na gorduchina?",
+        "respostas"     : ["É.", "Não é."],
+        "resp_certa"    : 0
+    },
+    {
+        "pergunta"      : "Pergunta4: Pimba na gorduchina?",
+        "respostas"     : ["É.", "Não é."],
+        "resp_certa"    : 0
+    },
+    {
+        "pergunta"      : "Pergunta5: Pimba na gorduchina?",
+        "respostas"     : ["É.", "Não é."],
+        "resp_certa"    : 0
+    }
+]

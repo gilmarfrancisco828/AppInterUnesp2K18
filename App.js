@@ -6,7 +6,7 @@ import { Container, Header, Title, Content, List, ListItem, Left, Body, Right, T
 import { createStackNavigator } from 'react-navigation';
 import TelaPerguntas from './pages/Perguntas.js';
 
-class TelinhaInicial extends React.Component{
+class TelinhaInicial extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -52,6 +52,7 @@ class TelinhaInicial extends React.Component{
         });
       })
       .catch(function (error) {
+        alert(error);
       });
   }
   async componentWillMount() {
@@ -82,7 +83,14 @@ class TelinhaInicial extends React.Component{
                 this.state.usuarios.map((l) => (
                   <ListItem avatar
                     key={l.user_cod}
-                    onPress={() => this.props.navigation.navigate('Perguntas')}>
+                    onPress={() => {
+                      AsyncStorage.setItem('selectedUser', String(l.user_cod)).then(
+                        this.props.navigation.navigate('Perguntas')
+                      ).catch(error => {
+                        console.log(error);
+                      });
+                    }
+                    }>
                     <Left>
                       <Thumbnail source={require('./assets/img/profile.png')} />
                     </Left>
@@ -108,7 +116,7 @@ class TelinhaInicial extends React.Component{
 }
 const RootStack = createStackNavigator(
   {
-    Home: {screen: TelinhaInicial},
+    Home: { screen: TelinhaInicial },
     Perguntas: TelaPerguntas,
   },
   {

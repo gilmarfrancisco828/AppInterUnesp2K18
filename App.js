@@ -15,23 +15,25 @@ class TelinhaInicial extends React.Component {
     };
     const asyncUsers = async () => {
       try {
+        console.log('Oi')
         let resultUsers = await AsyncStorage.getItem('users');
         if (resultUsers !== null) {
           this.setState({
             usuarios: JSON.parse(resultUsers)
           });
+          console.log('Já tinha usuários salvos')
         }
         else if (resultUsers == null) {
           //Carregar data
           // AsyncStorage.setItem('data', JSON.stringify(this.carregaDataAlteracaoUsuarios()));
           //Como arrumar isso aqui e não ficar passando this???
-          this.carregaUsuarios(this);
+          this.carregaUsuarios(this)
           //Tá feio pakas isso aqui
         }
         // console.log(resultUsers);
         return resultUsers;
       } catch (error) {
-        console.log(error);
+        console.log(error)
       }
     }
     // AsyncStorage.clear();
@@ -39,13 +41,14 @@ class TelinhaInicial extends React.Component {
 
   }
   carregaUsuarios(contexto) {
-    axios.get('http://186.217.104.136/data/users.json', {
+    console.log("Tentando carregar.")
+    axios.get('http://10.42.0.1/data/users.json', {
       params: {
         token: 'Abobrinha123'
       }
     })
       .then(function (u) {
-        console.log("Pimba na gorduchinha!");
+        console.log("Requisitou usuários da WebService.")
         AsyncStorage.setItem('users', JSON.stringify(u.data));
         contexto.setState({ usuarios: u.data }, function () {
           // alert("Alterou!!!!");
@@ -76,7 +79,7 @@ class TelinhaInicial extends React.Component {
               source={require('./assets/img/banner.jpg')}
               style={styles.logo} />
             <Body style={styles.logoContent}>
-              <Text>Selecione o usuário:</Text>
+              <Text>Selecione o usuários:</Text>
             </Body>
             <List>
               {
@@ -84,7 +87,7 @@ class TelinhaInicial extends React.Component {
                   <ListItem avatar
                     key={l.user_cod}
                     onPress={() => {
-                      AsyncStorage.setItem('selectedUser', String(l.user_cod)).then(
+                      AsyncStorage.setItem('@inter:selectedUser', String(l.user_cod)).then(
                         this.props.navigation.navigate('Perguntas')
                       ).catch(error => {
                         console.log(error);

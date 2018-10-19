@@ -1,0 +1,26 @@
+[
+    {
+        "user_nome" : "Fulano de Tal",
+        "user_cod" : 1
+    },
+    {
+        "user_nome" : "Ermenegildo Fagundes",
+        "user_cod" : 2
+    },
+    {
+        "user_nome" : "Abobronildo da Silva",
+        "user_cod" : 3
+    },
+    {
+        "user_nome" : "Taturinho da Ejcompones",
+        "user_cod" : 4
+    },
+    {
+        "user_nome" : "Piteri Mendes",
+        "user_cod" : 5
+    },
+    {
+        "user_nome" : "Ronaldo ChicoteNoCadilagi",
+        "user_cod" : 6
+    }
+]

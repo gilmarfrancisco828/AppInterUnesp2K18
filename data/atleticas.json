@@ -1,0 +1,37 @@
+[
+    {
+        "atle_nome": "A.A.A UNESP PRUDENTE",
+        "atle_cod": 1,
+        "atle_img": "http://172.16.36.16/data/atleticas/prudente.png"
+    },
+    {
+        "atle_nome": "A.A.A UNESP ASSIS",
+        "atle_cod": 2,
+        "atle_img": "http://172.16.36.16/data/atleticas/assis.png"
+    },
+    {
+        "atle_nome": "A.A.A UNESP RIO PRETO",
+        "atle_cod": 3,
+        "atle_img": "http://172.16.36.16/data/atleticas/riopreto.png"
+    },
+    {
+        "atle_nome": "A.A.A UNESP ARARAQUARA",
+        "atle_cod": 4,
+        "atle_img": "http://172.16.36.16/data/atleticas/araraquara.png"
+    },
+    {
+        "atle_nome": "A.A.A UNESP FRANCA",
+        "atle_cod": 5,
+        "atle_img": "http://172.16.36.16/data/atleticas/franca.png"
+    },
+    {
+        "atle_nome": "A.A.A UNESP BAURU",
+        "atle_cod": 7,
+        "atle_img": "http://172.16.36.16/data/atleticas/bauru.png"
+    },
+    {
+        "atle_nome": "A.A.A UNESP MARÍLIA",
+        "atle_cod": 8,
+        "atle_img": "http://172.16.36.16/data/atleticas/marilia.png"
+    }
+]

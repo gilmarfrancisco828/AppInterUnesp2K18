@@ -2,6 +2,7 @@ import React from 'react';
 import axios from "axios";
 import { StyleSheet, AsyncStorage, Image, ActivityIndicator } from 'react-native';
 import { Font, AppLoading } from "expo";
+import * as consts from '../config/constants.js';
 import { Container, Header, Title, Content, List, ListItem, Left, Body, Right, Thumbnail, Text, Icon, Button, H1, H3 } from 'native-base';
 const logo = require('../assets/img/logolieufundo.jpg');
 class TelaInicial extends React.Component {
@@ -34,7 +35,7 @@ class TelaInicial extends React.Component {
   }
   carregaUsuarios(contexto) {
     console.log("Tentando carregar.")
-    axios.get('http://172.16.36.16/data/users.json', {
+    axios.get(consts.SERVER_API + "/user", {
       params: {
         token: 'Abobrinha123'
       }

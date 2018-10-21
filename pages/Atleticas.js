@@ -2,6 +2,7 @@ import React from 'react';
 import axios from "axios";
 import { StyleSheet, AsyncStorage, ActivityIndicator } from 'react-native';
 import { Font } from "expo";
+import * as consts from '../config/constants.js';
 import { Container, Content, List, ListItem, Left, Body, Thumbnail, Text} from 'native-base';
 import { Col, Grid } from "react-native-easy-grid";
 class TelaAtleticas extends React.Component {
@@ -40,7 +41,7 @@ class TelaAtleticas extends React.Component {
   carregaAtleticas(contexto) {
     console.log("Tentando carregar.")
     contexto.setState({ loading: true, });
-    axios.get('http://172.16.36.16/data/atleticas.json', {
+    axios.get(consts.SERVER_API + 'atletics', {
       params: {
         token: 'Abobrinha123'
       }

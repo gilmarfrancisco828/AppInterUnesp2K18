@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Font, AppLoading } from "expo";
 import { StyleSheet, AsyncStorage, ActivityIndicator } from 'react-native';
 import { Container, Content, Card, CardItem, Button, Text, Body, Icon, View, Left, Right } from 'native-base';
+import * as consts from '../config/constants.js';
 import Dimensions from 'Dimensions';
 import axios from "axios";
 let ScreenHeight = Dimensions.get("window").height;
@@ -72,7 +73,7 @@ class Perguntas extends React.Component {
     var config = {
       headers: { 'token': 'Abobrinha123' }
     };
-    axios.get('http://172.16.36.16/data/questionarios.json', {
+    axios.get(consts.SERVER_API + 'form', {
     }, config)
       .then(function (u) {
         console.log("Requisitou questionário da WebService.")

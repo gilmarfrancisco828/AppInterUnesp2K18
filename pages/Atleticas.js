@@ -16,7 +16,6 @@ class TelaAtleticas extends React.Component {
       try {
         let resultAtletics = await AsyncStorage.getItem('@inter:atleticas');
         if (resultAtletics !== null) {
-          this.carregaAtleticas(this)
           this.setState({
             atleticas: JSON.parse(resultAtletics)
           });

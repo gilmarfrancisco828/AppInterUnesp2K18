@@ -1,1 +1,1 @@
-export const SERVER_API = 'teco.ejcomp.com.br:5007/api/';
+export const SERVER_API = 'http://teco.ejcomp.com.br:5007/api/';

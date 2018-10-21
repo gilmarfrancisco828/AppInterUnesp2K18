@@ -79,7 +79,7 @@ class Perguntas extends React.Component {
         console.log("Requisitou questionário da WebService.")
         AsyncStorage.setItem('@inter:questionario' + id_questionario, JSON.stringify(u.data));
         contexto.setState({ questionario: u.data });
-        this.niceTransition();
+        contexto.niceTransition();
       })
       .catch(function (error) {
         alert(error);

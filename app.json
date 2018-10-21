@@ -4,6 +4,9 @@
     "name": "InterUnesp",
     "slug": "interunesp",
     "version": "0.1.0",
-    "description": ""
+    "description": "",
+    "android": {
+      "package": "com.ejcomp.interunesp19"
+    }
   }
 }

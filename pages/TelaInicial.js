@@ -35,7 +35,7 @@ class TelaInicial extends React.Component {
   }
   carregaUsuarios(contexto) {
     console.log("Tentando carregar.")
-    axios.get(consts.SERVER_API + "/user", {
+    axios.get(consts.SERVER_API + "user", {
       params: {
         token: 'Abobrinha123'
       }

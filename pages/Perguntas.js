@@ -3,6 +3,7 @@ import { Font, AppLoading } from "expo";
 import { StyleSheet, AsyncStorage, ActivityIndicator } from 'react-native';
 import { Container, Content, Card, CardItem, Button, Text, Body, Icon, View, Left, Right } from 'native-base';
 import * as consts from '../config/constants.js';
+import randSlice from '../assets/helpers/getRandomSlice.js';
 import Dimensions from 'Dimensions';
 import axios from "axios";
 let ScreenHeight = Dimensions.get("window").height;
@@ -43,6 +44,7 @@ class Perguntas extends React.Component {
 
       if (data != null) {
         data = JSON.parse(data);
+        data.perguntas = randSlice.getRandomSlice(data.perguntas, Math.floor(data.perguntas.length * 0.6));
         this.setState({
           questionario: data,
           loading: false,
@@ -78,6 +80,7 @@ class Perguntas extends React.Component {
       .then(function (u) {
         console.log("Requisitou questionário da WebService.")
         AsyncStorage.setItem('@inter:questionario' + id_questionario, JSON.stringify(u.data));
+        u.data.perguntas = randSlice.getRandomSlice(u.data.perguntas, Math.floor(u.data.perguntas.length * 0.6));
         contexto.setState({ questionario: u.data });
         contexto.niceTransition();
       })

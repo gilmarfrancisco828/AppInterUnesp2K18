@@ -3,7 +3,7 @@ import axios from "axios";
 import { StyleSheet, AsyncStorage, ActivityIndicator } from 'react-native';
 import { Font } from "expo";
 import * as consts from '../config/constants.js';
-import { Container, Content, List, ListItem, Left, Body, Thumbnail, Text} from 'native-base';
+import { Container, Content, List, ListItem, Left, Body, Button, Thumbnail, Text } from 'native-base';
 import { Col, Grid } from "react-native-easy-grid";
 class TelaAtleticas extends React.Component {
   constructor(props) {
@@ -89,7 +89,7 @@ class TelaAtleticas extends React.Component {
                       key={l.atle_cod}
                       onPress={() => {
                         AsyncStorage.setItem('@inter:selectedAtletica', String(l.atle_cod)).then(
-                          this.props.navigation.navigate('Perguntas')
+                          this.props.navigation.navigate('Questionarios')
                         ).catch(error => {
                           console.log(error);
                         });
@@ -104,6 +104,14 @@ class TelaAtleticas extends React.Component {
                     </ListItem>
                   ))
                 }
+                <ListItem last center>
+                  <Button block bordered dark onPress={() => {
+                    this.carregaAtleticas(this)
+                  }
+                  }>
+                    <Text>Atualizar Atléticas</Text>
+                  </Button>
+                </ListItem>
               </List>
             </Col>
             <Col size={5}></Col>

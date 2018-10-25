@@ -102,6 +102,14 @@ class TelaInicial extends React.Component {
                   </ListItem>
                 ))
               }
+              <ListItem last center>
+                <Button block bordered dark onPress={() => {
+                  this.carregaUsuarios(this)
+                }
+                }>
+                  <Text>Atualizar Usuários</Text>
+                </Button>
+              </ListItem>
             </List>
           </Content >
         </Container >

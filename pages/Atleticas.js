@@ -5,6 +5,7 @@ import { Font } from "expo";
 import * as consts from '../config/constants.js';
 import { Container, Content, List, ListItem, Left, Body, Thumbnail, Text} from 'native-base';
 import { Col, Grid } from "react-native-easy-grid";
+import { LinearGradient } from 'expo';
 class TelaAtleticas extends React.Component {
   constructor(props) {
     super(props);
@@ -66,7 +67,7 @@ class TelaAtleticas extends React.Component {
     this.niceTransition();
   }
   static navigationOptions = {
-    title: 'Selecione a Atlética:',
+    title: 'Selecione a Atlética',
     headerTintColor: 'white',
     headerStyle: {
       backgroundColor: '#404040',
@@ -78,8 +79,15 @@ class TelaAtleticas extends React.Component {
   render() {
     if (!this.state.loading) {
       return (
-        <Content scrollEnabled={true}>
-          <Grid>
+        <Container>
+          <LinearGradient
+              style={{ flex: 1}}
+              colors={['#ff4e50', '#f9d423']}
+           >
+          <Content>
+           
+          <Grid style={{ flex: 1}}>
+            
             <Col size={5}></Col>
             <Col scrollEnabled={true} size={90}>
               <List scrollEnabled={true} style={styles.listAtletics}>
@@ -99,17 +107,22 @@ class TelaAtleticas extends React.Component {
                         <Thumbnail source={{ uri: l.atle_img }} />
                       </Left>
                       <Body>
-                        <Text>{l.atle_nome}</Text>
+                        <Text style={{ color:'#fff', fontSize: 18 }}>{l.atle_nome}</Text>
                       </Body>
                     </ListItem>
+
+
                   ))
                 }
               </List>
             </Col>
             <Col size={5}></Col>
+             
           </Grid>
-
-        </Content>
+          
+          </Content>
+          </LinearGradient>
+        </Container>
       );
     }
     else {

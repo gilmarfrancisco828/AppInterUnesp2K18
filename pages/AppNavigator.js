@@ -7,7 +7,7 @@ import TelaAtleticas from './Atleticas';
 const AppNavigator = createStackNavigator({
   Home: { screen: Home},
   Perguntas: { screen: TelaPerguntas},
-  Resultado: { screen: TelaResultados},
+  Resultado: { screen: TelaResultados},  
   Atleticas: {screen: TelaAtleticas}
 });
 

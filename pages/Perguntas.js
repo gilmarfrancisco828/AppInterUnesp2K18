@@ -5,6 +5,7 @@ import { Container, Content, Card, CardItem, Button, Text, Body, Icon, View, Lef
 import * as consts from '../config/constants.js';
 import Dimensions from 'Dimensions';
 import axios from "axios";
+import { LinearGradient } from 'expo';
 let ScreenHeight = Dimensions.get("window").height;
 let id_questionario = 1;
 class Perguntas extends React.Component {
@@ -145,7 +146,7 @@ class Perguntas extends React.Component {
     console.log(this.state.quest_resps);
   }
   static navigationOptions = {
-    title: 'Questionário:',
+    title: 'Questionário',
     headerTintColor: 'white',
     headerStyle: {
       backgroundColor: '#404040',
@@ -158,20 +159,28 @@ class Perguntas extends React.Component {
     if (!this.state.loading) {
       return (
         <Container>
-          <Content>
-            <Card style={{ minHeight: ScreenHeight * 0.8 }}>
-              <CardItem header>
-                <Text>{this.state.questionario.perguntas[this.state.p_atual].pergunta}</Text>
+          <LinearGradient
+              style={{ flex: 1}}
+              colors={['#00c9ff', '#92f39d']}
+           >
+          <Content  style={{ backgroundColor: 'transparent' }}>
+             
+            <Card transparent style={{ minHeight: ScreenHeight * 0.8, backgroundColor: 'transparent' }}>
+
+              <CardItem header 
+                style={{ backgroundColor: 'transparent' }}
+              >
+                <Text style={{ fontSize: 20, color: '#fff' }}>{this.state.questionario.perguntas[this.state.p_atual].pergunta}</Text>
               </CardItem>
               {
                 this.state.questionario.perguntas[this.state.p_atual].respostas.map((r) => (
                   <CardItem
                     key={r.id_resposta}
+                    style={{ backgroundColor: 'transparent'}}
                   >
-                    <Body style={styles.resposta}>
-                      <Button block bordered dark={(this.state.quest_resps[this.state.p_atual] != undefined
-                        && this.state.quest_resps[this.state.p_atual][2] == Number(r.id_resposta))
-                        ? false : true}
+                    <Body >
+                     
+                      <Button style={styles.resposta} block 
                         onPress={() => {
                           setTimeout(() => {
                             this.salvarResposta(id_questionario, this.state.p_atual, Number(r.id_resposta))
@@ -182,29 +191,33 @@ class Perguntas extends React.Component {
                       >
                         <Text style={(this.state.quest_resps[this.state.p_atual] != undefined
                           && this.state.quest_resps[this.state.p_atual]['id_resposta'] == Number(r.id_resposta))
-                          ? { textDecorationLine: 'line-through' } : {}} uppercase={false}>{r.resposta}</Text>
+                          ? { textDecorationLine: 'line-through' } : {}, { fontSize: 16, color: '#00c9ff' }} uppercase={false}>{r.resposta}</Text>
                       </Button>
+
                     </Body>
                   </CardItem>
                 ))
               }
+             
             </Card>
+
           </Content>
-          <View style={{ flexDirection: "row" }}>
+          <View style={{ flexDirection: "row", backgroundColor: '#404040' }}>
             <Left>
-              <Button light onPress={() => { this.mudaPergunta(-1) }}>
-                <Icon name='arrow-back' />
+              <Button style={{ backgroundColor: '#404040' }} light onPress={() => { this.mudaPergunta(-1) }}>
+                <Icon name='arrow-back' style={{ color:'#fff' }} />
               </Button>
             </Left>
             <Button transparent dark>
-              <Text>{String(this.state.p_atual + 1) + '/' + String(this.state.questionario.perguntas.length)}</Text>
+              <Text style={{ color: '#fff' }} >{String(this.state.p_atual + 1) + ' | ' + String(this.state.questionario.perguntas.length)}</Text>
             </Button>
             <Right>
-              <Button light onPress={() => { this.mudaPergunta(1) }}>
-                <Icon name='arrow-forward' />
+              <Button style={{ backgroundColor: '#404040' }} light onPress={() => { this.mudaPergunta(1) }}>
+                <Icon name='arrow-forward' style={{ color:'#fff' }} />
               </Button>
             </Right>
           </View>
+           </LinearGradient>
         </Container >
       );
     }
@@ -220,6 +233,10 @@ class Perguntas extends React.Component {
 
 const styles = StyleSheet.create({
   resposta: {
+    borderRadius: 30,
+    paddingTop: 30,
+    paddingBottom: 30,
+    backgroundColor: '#fff'
   },
   loadingContainer: {
     flex: 1,

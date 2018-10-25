@@ -4,6 +4,8 @@ import { Font } from "expo";
 import { Container, Content, Text, Badge, H1, Card, CardItem, Body, Button } from 'native-base';
 import { Col, Grid } from "react-native-easy-grid";
 import axios from "axios";
+import { LinearGradient } from 'expo';
+
 
 class Resultados extends React.Component {
     constructor(props) {
@@ -11,7 +13,7 @@ class Resultados extends React.Component {
         this.state = {
             acertos: this.props.navigation.state.params.acertos,
             total: this.props.navigation.state.params.total,
-            color: "red",
+            color: "#fd746c",
             badge: true,
             loading: true,
             msg: null,
@@ -25,11 +27,11 @@ class Resultados extends React.Component {
     getMenssagem() {
         let res = this.state.acertos / this.state.total;
         if (res == 1) {
-            this.setState({ color: "green", badge: false});
+            this.setState({ color: "#00c9ff", badge: false});
             return "Parabéns, você gabaritou!";
         }
         if (res >= 0.5) {
-            this.setState({ color: "green", badge: false});
+            this.setState({ color: "#00c9ff", badge: false});
             return "Você acertou " + String(res * 100) + "%, parabéns!";
         }
         else {
@@ -57,14 +59,21 @@ class Resultados extends React.Component {
     render() {
         if (!this.state.loading) {
             return (
+                <Container>
+                <LinearGradient
+                      style={{ flex: 1}}
+                      colors={['#fd746c', '#ff9068']}
+                        >
                 <Content scrollEnabled={true}>
+                     
                     <Grid>
-                        <Col size={5}></Col>
+                       
+                        
                         <Col scrollEnabled={true} size={90}>
-                            <Card>
+                            <Card style={{ marginTop: 40, marginLeft: 10, marginRight: 10, paddingTop: 50, paddingBottom: 50 }}>
                                 <CardItem>
-                                    <Body>
-                                        <H1 style={{ color: this.state.color }}>{this.state.msg}</H1>
+                                    <Body style={{ justifyContent: 'center', alignItems: 'center'}}>
+                                        <H1 style={{ color: this.state.color, textAlign: 'center', fontSize: 30 }}>{this.state.msg}</H1>
                                     </Body>
                                 </CardItem>
                                 <CardItem style={{
@@ -73,30 +82,32 @@ class Resultados extends React.Component {
                                     alignItems: 'center',
                                     justifyContent: 'center',
                                 }}>
-                                    <Badge danger={this.state.badge} success={!this.state.badge}>
-                                        <Text>{this.state.acertos}/{this.state.total}</Text>
+                                    <Badge style={{ backgroundColor: this.state.color}} danger={this.state.badge} success={!this.state.badge}>
+                                        <Text >{this.state.acertos} | {this.state.total}</Text>
                                     </Badge>
                                 </CardItem>
                             </Card>
-                            <Card>
-                                <Button full block style={{ backgroundColor: "#404040" }} onPress={() => {
+                            <Card transparent >
+                                <Button style={styles.resposta}  block  onPress={() => {
                                     this.props.navigation.navigate('Perguntas');
                                 }}>
-                                    <Text>Realizar Novamente</Text>
+                                    <Text style={{ fontSize: 16, color: '#fd746c' }} >Realizar Novamente</Text>
                                 </Button>
                             </Card>
-                            <Card>
-                                <Button full block style={{ backgroundColor: "#404040" }} onPress={() => {
+                            <Card transparent >
+                                <Button  block style={styles.resposta} onPress={() => {
                                     this.props.navigation.navigate('Atleticas');
                                 }}>
-                                    <Text>Selecionar Atlética</Text>
+                                    <Text  style={{ fontSize: 16, color: '#fd746c' }} >Selecionar Atlética</Text>
                                 </Button>
                             </Card>
                         </Col>
-                        <Col size={5}></Col>
+                         
                     </Grid>
 
                 </Content>
+                </LinearGradient>
+                </Container>
             );
         }
         else {
@@ -111,8 +122,12 @@ class Resultados extends React.Component {
 
 const styles = StyleSheet.create({
     resposta: {
-        marginTop: "5%",
-        width: '100%',
+        paddingTop: 30,
+        paddingBottom: 30,
+        borderRadius: 30,
+        backgroundColor: 'white',
+        marginLeft: 10,
+        marginRight: 10
     },
     loadingContainer: {
         flex: 1,

@@ -191,7 +191,7 @@ class Perguntas extends React.Component {
                       >
                         <Text style={(this.state.quest_resps[this.state.p_atual] != undefined
                           && this.state.quest_resps[this.state.p_atual]['id_resposta'] == Number(r.id_resposta))
-                          ? { textDecorationLine: 'line-through', fontSize: 17, color: '#00c9ff' } : { fontSize: 16, color: '#00c9ff' }} uppercase={false}>{r.resposta}</Text>
+                          ? { opacity: 0.3, fontSize: 17, color: '#00c9ff' } : { fontSize: 16, color: '#00c9ff' }} uppercase={false}>{r.resposta}</Text>
                       </Button>
 
                     </Body>

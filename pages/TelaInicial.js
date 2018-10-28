@@ -112,6 +112,11 @@ class TelaInicial extends React.Component {
                   ))
                 }
               </List>
+              <Button  block style={styles.resposta} onPress={() => {
+                    
+                }}>
+                    <Text  style={{ fontSize: 16, color: '#404040' }} >X respostas, enviar</Text>
+                </Button>
             </Content >
             </LinearGradient>
         
@@ -130,6 +135,14 @@ class TelaInicial extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  resposta: {
+    marginTop: 30,
+    marginBottom: 30,
+    borderRadius: 30,
+    paddingTop: 30,
+    paddingBottom: 30,
+    backgroundColor: '#fff'
+  },
   container: {
     flex: 1,
     backgroundColor: "#fff",

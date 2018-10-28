@@ -13,10 +13,11 @@ class Resultados extends React.Component {
         this.state = {
             acertos: this.props.navigation.state.params.acertos,
             total: this.props.navigation.state.params.total,
-            color: "#fd746c",
             badge: true,
             loading: true,
             msg: null,
+            back1: '#fd746c',
+            back2: '#ff9068'
         };
     }
     niceTransition() {
@@ -27,11 +28,11 @@ class Resultados extends React.Component {
     getMenssagem() {
         let res = this.state.acertos / this.state.total;
         if (res == 1) {
-            this.setState({ color: "#00c9ff", badge: false});
+            this.setState({ back1: '#348f50', back2: '#56b4d3',  badge: false});
             return "Parabéns, você gabaritou!";
         }
         if (res >= 0.5) {
-            this.setState({ color: "#00c9ff", badge: false});
+            this.setState({ back1: '#348f50', back2: '#56b4d3',  badge: false});
             return "Você acertou " + String(res * 100) + "%, parabéns!";
         }
         else {
@@ -62,7 +63,7 @@ class Resultados extends React.Component {
                 <Container>
                 <LinearGradient
                       style={{ flex: 1}}
-                      colors={['#fd746c', '#ff9068']}
+                      colors={[this.state.back2, this.state.back1]}
                         >
                 <Content scrollEnabled={true}>
                      
@@ -73,7 +74,7 @@ class Resultados extends React.Component {
                             <Card style={{ marginTop: 40, marginLeft: 10, marginRight: 10, paddingTop: 50, paddingBottom: 50 }}>
                                 <CardItem>
                                     <Body style={{ justifyContent: 'center', alignItems: 'center'}}>
-                                        <H1 style={{ color: this.state.color, textAlign: 'center', fontSize: 30 }}>{this.state.msg}</H1>
+                                        <H1 style={{ color: this.state.back1, textAlign: 'center', fontSize: 30 }}>{this.state.msg}</H1>
                                     </Body>
                                 </CardItem>
                                 <CardItem style={{
@@ -82,7 +83,7 @@ class Resultados extends React.Component {
                                     alignItems: 'center',
                                     justifyContent: 'center',
                                 }}>
-                                    <Badge style={{ backgroundColor: this.state.color}} danger={this.state.badge} success={!this.state.badge}>
+                                    <Badge style={{ backgroundColor: this.state.back1}} danger={this.state.badge} success={!this.state.badge}>
                                         <Text >{this.state.acertos} | {this.state.total}</Text>
                                     </Badge>
                                 </CardItem>
@@ -91,14 +92,14 @@ class Resultados extends React.Component {
                                 <Button style={styles.resposta}  block  onPress={() => {
                                     this.props.navigation.navigate('Perguntas');
                                 }}>
-                                    <Text style={{ fontSize: 16, color: '#fd746c' }} >Realizar Novamente</Text>
+                                    <Text style={{ fontSize: 16, color: this.state.back1 }} >Realizar Novamente</Text>
                                 </Button>
                             </Card>
                             <Card transparent >
                                 <Button  block style={styles.resposta} onPress={() => {
                                     this.props.navigation.navigate('Atleticas');
                                 }}>
-                                    <Text  style={{ fontSize: 16, color: '#fd746c' }} >Selecionar Atlética</Text>
+                                    <Text  style={{ fontSize: 16, color: this.state.back1 }} >Selecionar Atlética</Text>
                                 </Button>
                             </Card>
                         </Col>

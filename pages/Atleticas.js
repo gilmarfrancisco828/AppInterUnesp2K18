@@ -3,7 +3,7 @@ import axios from "axios";
 import { StyleSheet, AsyncStorage, ActivityIndicator } from 'react-native';
 import { Font } from "expo";
 import * as consts from '../config/constants.js';
-import { Container, Content, List, ListItem, Left, Body, Thumbnail, Text} from 'native-base';
+import { Container, Content, List, ListItem, Left, Body, Button, Thumbnail, Text } from 'native-base';
 import { Col, Grid } from "react-native-easy-grid";
 import { LinearGradient } from 'expo';
 class TelaAtleticas extends React.Component {
@@ -97,7 +97,7 @@ class TelaAtleticas extends React.Component {
                       key={l.atle_cod}
                       onPress={() => {
                         AsyncStorage.setItem('@inter:selectedAtletica', String(l.atle_cod)).then(
-                          this.props.navigation.navigate('Perguntas')
+                          this.props.navigation.navigate('Questionarios')
                         ).catch(error => {
                           console.log(error);
                         });
@@ -114,12 +114,22 @@ class TelaAtleticas extends React.Component {
 
                   ))
                 }
+                
+                  
+                
               </List>
+               <Button block style={styles.resposta} onPress={() => {
+                    this.carregaAtleticas(this)
+                  }
+                  }>
+                    <Text  style={{ fontSize: 16, color: '#ff4e50' }} >Atualizar Atléticas</Text>
+                  </Button>
+              
             </Col>
             <Col size={5}></Col>
              
           </Grid>
-          
+         
           </Content>
           </LinearGradient>
         </Container>
@@ -136,6 +146,14 @@ class TelaAtleticas extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  resposta: {
+    marginTop: 30,
+    borderRadius: 30,
+    marginBottom: 20,
+    paddingTop: 30,
+    paddingBottom: 30,
+    backgroundColor: '#fff'
+  },
   container: {
     backgroundColor: "#fff",
   },

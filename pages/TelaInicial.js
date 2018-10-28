@@ -82,7 +82,6 @@ class TelaInicial extends React.Component {
               <Image resizeMode={'contain'}
                 source={logo}
                 style={styles.logo} />
-
               <List style={styles.listUsers}>
                 <ListItem itemHeader first center>
                   <Text style={{ color:'#fff', fontSize: 30 }}>Selecione o usuário</Text>
@@ -112,7 +111,13 @@ class TelaInicial extends React.Component {
                   ))
                 }
               </List>
-              <Button  block style={styles.resposta} onPress={() => {
+              <Button block style={styles.resposta} onPress={() => {
+                  this.carregaUsuarios(this)
+                }
+                }>
+                  <Text  style={{ fontSize: 16, color: '#404040' }} >Atualizar Usuários</Text>
+                </Button>
+              <Button  block style={[styles.resposta, { marginBottom: 20 }]} onPress={() => {
                     
                 }}>
                     <Text  style={{ fontSize: 16, color: '#404040' }} >X respostas, enviar</Text>
@@ -121,7 +126,6 @@ class TelaInicial extends React.Component {
             </LinearGradient>
         
           </Container>
-          
       );
     }
     else {
@@ -137,8 +141,8 @@ class TelaInicial extends React.Component {
 const styles = StyleSheet.create({
   resposta: {
     marginTop: 30,
-    marginBottom: 30,
     borderRadius: 30,
+    marginBottom: -20,
     paddingTop: 30,
     paddingBottom: 30,
     backgroundColor: '#fff'

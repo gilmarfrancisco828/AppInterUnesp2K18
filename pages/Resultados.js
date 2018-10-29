@@ -90,9 +90,9 @@ class Resultados extends React.Component {
                             </Card>
                             <Card transparent >
                                 <Button style={styles.resposta}  block  onPress={() => {
-                                    this.props.navigation.navigate('Perguntas');
+                                    this.props.navigation.navigate('Questionarios');
                                 }}>
-                                    <Text style={{ fontSize: 16, color: this.state.back1 }} >Realizar Novamente</Text>
+                                    <Text style={{ fontSize: 16, color: this.state.back1 }} >Selecionar Questionário</Text>
                                 </Button>
                             </Card>
                             <Card transparent >

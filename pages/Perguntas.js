@@ -101,19 +101,20 @@ class questions extends React.Component {
     return result;
   }
   serializeRespostas() {
-    AsyncStorage.getItem('@inter:form' + this.state.selectedForm + '_resps').then((data) => {
+    AsyncStorage.getItem('@inter:forms_answers').then((data) => {
       let form_resps = {
-        "data_respondeu": this.getDateTime(),
-        "respostas": this.state.form_resps,
-        "atletica": this.state.selectedAtletica,
-        "entrevistador": this.state.selectedUser,
+        "datetime": this.getDateTime(),
+        "form": this.state.form._id,
+        "answers": this.state.form_resps,
+        "atletich": this.state.selectedAtletica,
+        "interviewer": this.state.selectedUser,
       }
       let resps = []
       if (data != null) {
         resps = JSON.parse(data)
       }
       resps.push(form_resps)
-      AsyncStorage.setItem('@inter:questionario' + this.state.selectedForm + '_resps', JSON.stringify(resps)).then(() => {
+      AsyncStorage.setItem('@inter:forms_answers', JSON.stringify(resps)).then(() => {
         this.props.navigation.navigate('Resultado', {
           acertos: this.calculaAcertos(),
           total: this.state.form.questions.length,
@@ -130,7 +131,7 @@ class questions extends React.Component {
     });
     return soma;
   }
-  salvarResposta(idForm, idQuestion, idPerguntaAtual, idAnswer) {
+  salvarResposta(idQuestion, idPerguntaAtual, idAnswer) {
     let resps = this.state.form_resps
     let correct = 0
     this.state.form.questions[idPerguntaAtual].answers.map((r) => {
@@ -140,14 +141,14 @@ class questions extends React.Component {
         }
       }
     });
-    resps[idPerguntaAtual] = { "id_form": idForm, "id_question": idQuestion, "id_answer": idAnswer, "correct": correct }
+    resps[idPerguntaAtual] = { "id_question": idQuestion, "id_answer": idAnswer, "correct": correct }
     this.setState({
       form_resps: resps,
     });
     console.log(this.state.form_resps);
   }
   static navigationOptions = {
-    title: 'Questionário',
+    title: 'Questionário:',
     headerTintColor: 'white',
     headerStyle: {
       backgroundColor: '#404040',
@@ -161,66 +162,68 @@ class questions extends React.Component {
       return (
         <Container>
           <LinearGradient
-              style={{ flex: 1}}
-              colors={['#00c9ff', '#92f39d']}
-           >
-          <Content  style={{ backgroundColor: 'transparent' }}>
-             
-            <Card transparent style={{ minHeight: ScreenHeight * 0.8, backgroundColor: 'transparent' }}>
+            style={{ flex: 1 }}
+            colors={['#00c9ff', '#92f39d']}
+          >
+            <Content style={{ backgroundColor: 'transparent' }}>
 
-              <CardItem header 
-                style={{ backgroundColor: 'transparent' }}
-              >
-                <Text style={{ fontSize: 20, color: '#fff' }}>{this.state.questionario.perguntas[this.state.p_atual].pergunta}</Text>
-              </CardItem>
-              {
-                this.state.form.questions[this.state.p_atual].answers.map((r) => (
-                  <CardItem
-                    key={r.id_resposta}
-                    style={{ backgroundColor: 'transparent'}}
-                  >
-                    <Body >
-                     
-                      <Button style={styles.resposta} block 
-                        onPress={() => {
-                          setTimeout(() => {
-                            this.salvarResposta(this.state.form._id, this.state.form.questions[this.state.p_atual]._id, this.state.p_atual, r._id)
-                            this.mudaPergunta(1)
-                          }, 800)
-                        }
-                        }
-                      >
-                        <Text style={(this.state.quest_resps[this.state.p_atual] != undefined
-                          && this.state.quest_resps[this.state.p_atual]['id_resposta'] == Number(r.id_resposta))
-                          ? { opacity: 0.3, fontSize: 17, color: '#00c9ff' } : { fontSize: 16, color: '#00c9ff' }} uppercase={false}>{r.resposta}</Text>
+              <Card transparent style={{ minHeight: ScreenHeight * 0.8, backgroundColor: 'transparent' }}>
 
-                      </Button>
+                <CardItem header
+                  style={{ backgroundColor: 'transparent' }}
+                >
+                  <Text style={{ fontSize: 20, color: '#fff' }}>{this.state.form.questions[this.state.p_atual].description}</Text>
+                </CardItem>
+                {
+                  this.state.form.questions[this.state.p_atual].answers.map((r) => (
+                    <CardItem
+                    key={r._id}
+                      style={{ backgroundColor: 'transparent' }}
+                    >
+                      <Body >
 
-                    </Body>
-                  </CardItem>
-                ))
-              }
-             
-            </Card>
+                        <Button style={styles.resposta} block dark={(this.state.form_resps[this.state.p_atual] != undefined
+                        && this.state.form_resps[this.state.p_atual][2] == r._id)
+                        ? false : true}
+                          onPress={() => {
+                            setTimeout(() => {
+                              this.salvarResposta( this.state.form.questions[this.state.p_atual]._id, this.state.p_atual, r._id)
+                              this.mudaPergunta(1)
+                            }, 800)
+                          }
+                          }
+                        >
+                          <Text style={(this.state.form_resps[this.state.p_atual] != undefined
+                          && this.state.form_resps[this.state.p_atual]['id_answer'] == r._id)
+                          ? { textDecorationLine: 'line-through', opacity: 0.3, fontSize: 17, color: '#00c9ff' } : { fontSize: 16, color: '#00c9ff' }} uppercase={false}>{r.description}</Text>
 
-          </Content>
-          <View style={{ flexDirection: "row", backgroundColor: '#404040' }}>
-            <Left>
-              <Button style={{ backgroundColor: '#404040' }} light onPress={() => { this.mudaPergunta(-1) }}>
-                <Icon name='arrow-back' style={{ color:'#fff' }} />
+                        </Button>
+
+                      </Body>
+                    </CardItem>
+                  ))
+                }
+
+              </Card>
+
+            </Content>
+            <View style={{ flexDirection: "row", backgroundColor: '#404040' }}>
+              <Left>
+                <Button style={{ backgroundColor: '#404040' }} light onPress={() => { this.mudaPergunta(-1) }}>
+                  <Icon name='arrow-back' style={{ color: '#fff' }} />
+                </Button>
+              </Left>
+              <Button transparent dark>
+                <Text style={{ color: '#fff' }} >{String(this.state.p_atual + 1) + '/' + String(this.state.form.questions.length)}</Text>
+
               </Button>
-            </Left>
-            <Button transparent dark>
-              <Text style={{ color: '#fff' }} >{String(this.state.p_atual + 1) + ' | ' + String(this.state.questionario.perguntas.length)}</Text>
-
-            </Button>
-            <Right>
-              <Button style={{ backgroundColor: '#404040' }} light onPress={() => { this.mudaPergunta(1) }}>
-                <Icon name='arrow-forward' style={{ color:'#fff' }} />
-              </Button>
-            </Right>
-          </View>
-           </LinearGradient>
+              <Right>
+                <Button style={{ backgroundColor: '#404040' }} light onPress={() => { this.mudaPergunta(1) }}>
+                  <Icon name='arrow-forward' style={{ color: '#fff' }} />
+                </Button>
+              </Right>
+            </View>
+          </LinearGradient>
         </Container >
       );
     }

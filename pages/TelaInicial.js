@@ -10,47 +10,105 @@ class TelaInicial extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      usuarios: [],
-      loading: true
+      interviewers: [],
+      loading: true,
+      qtdRespostas: 0,
     };
-    const asyncUsers = async () => {
+    const asyncInterviewers = async () => {
       try {
-        console.log('Oi')
-        let resultUsers = await AsyncStorage.getItem('users');
-        if (resultUsers !== null) {
+        console.log('')
+        let resultInterviewers = await AsyncStorage.getItem('@inter:interviewers');
+        if (resultInterviewers !== null) {
           this.setState({
-            usuarios: JSON.parse(resultUsers)
+            interviewers: JSON.parse(resultInterviewers)
           });
-          console.log('Já tinha usuários salvos')
+          console.log('Já tinha entrevistadores salvos')
         }
-        else if (resultUsers == null) {
-          this.carregaUsuarios(this)
+        else if (resultInterviewers == null) {
+          this.loadInterviewers(this)
         }
-        return resultUsers;
+        return resultInterviewers;
       } catch (error) {
         console.log(error)
       }
     }
-    asyncUsers();
+    const asyncResps = async () => {
+      try {
+        console.log('')
+        let resultResps = await AsyncStorage.getItem('@inter:forms_answers');
+        if (resultResps !== null) {
+          this.setState({
+            qtdRespostas: JSON.parse(resultResps).length
+          });
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    asyncInterviewers();
+    asyncResps();
 
   }
-  carregaUsuarios(contexto) {
-    console.log("Tentando carregar.")
+  salvarRespostas() {
+    AsyncStorage.getItem(`@inter:forms_answers`).then((data) => {
+      this.setState({
+        loading: true,
+      });
+      if (data.length && this.saveAnswers(data)) {
+        AsyncStorage.removeItem(`@inter:forms_answers`);
+        this.setState({
+          qtdRespostas: 0
+        })
+        return true;
+      }
+      else {
+        this.setState({
+          loading: false,
+        });
+      }
+    }).catch(error => {
+      alert("Não foi possível enviar as respostas, verifique a conexão com a internet.")
+      console.log(error);
+      return false;
+    });
+    this.setState({
+      loading: false,
+    });
+  }
+  loadInterviewers(contexto) {
+    console.log("Tentando carregar entrevistadores.")
     axios.get(consts.SERVER_API + "user", {
       params: {
         token: 'Abobrinha123'
       }
     })
       .then(function (u) {
-        console.log("Requisitou usuários da WebService.")
-        AsyncStorage.setItem('users', JSON.stringify(u.data));
-        contexto.setState({ usuarios: u.data }, function () {
+        console.log("Requisitou entrevistadores da WebService.")
+        AsyncStorage.setItem('@inter:interviewers', JSON.stringify(u.data));
+        contexto.setState({ interviewers: u.data }, function () {
           // alert("Alterou!!!!");
         });
       })
       .catch(function (error) {
         alert(error);
       });
+  }
+  saveAnswers(data) {
+    console.log("Tentando salvar respostas.")
+    axios.post(consts.SERVER_API + "form/resps", {
+      params: {
+        answers: data,
+      }
+    })
+      .then(function (u) {
+        alert("Respostas salvas com sucesso.")
+        return true;
+      })
+      .catch(function (error) {
+        alert(error);
+        return false;
+      });
+    return false;
   }
   niceTransition() {
     setTimeout(() => {
@@ -62,36 +120,33 @@ class TelaInicial extends React.Component {
       Roboto: require("native-base/Fonts/Roboto.ttf"),
       Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf")
     });
-    this.setState({ usuarios: this.state.usuarios });
+    this.setState({ interviewers: this.state.interviewers });
     this.niceTransition();
   }
   static navigationOptions = { title: 'Welcome', header: null };
   render() {
     if (!this.state.loading) {
       return (
-        
-          <Container style={styles.container}>
-              <StatusBar hidden />
-              <LinearGradient
-              colors={['#00c6ff', '#0072ff']}
-              style={styles.linearGradient}>
-            {/* <Header androidStatusBarColor="#573ea8" style={styles.header} hasTabs>
-              <Title>InterUnesp 2018</Title>
-            </Header> */}
+
+        <Container style={styles.container}>
+          <StatusBar hidden />
+          <LinearGradient
+            colors={['#00c6ff', '#0072ff']}
+            style={styles.linearGradient}>
             <Content>
               <Image resizeMode={'contain'}
                 source={logo}
                 style={styles.logo} />
               <List style={styles.listUsers}>
                 <ListItem itemHeader first center>
-                  <Text style={{ color:'#fff', fontSize: 30 }}>Selecione o usuário</Text>
+                  <Text style={{ color: '#fff', fontSize: 30 }}>Selecione o usuário</Text>
                 </ListItem>
                 {
-                  this.state.usuarios.map((l) => (
+                  this.state.interviewers.map((l) => (
 
                     <ListItem avatar
                       key={l.user_cod}
-                     
+
                       onPress={() => {
                         AsyncStorage.setItem('@inter:selectedUser', String(l.user_cod)).then(
                           this.props.navigation.navigate('Atleticas')
@@ -104,28 +159,28 @@ class TelaInicial extends React.Component {
                         <Thumbnail source={require('../assets/img/profile.png')} />
                       </Left>
                       <Body>
-                        <Text style={{ color:'#fff', fontSize: 18 }}>{l.user_nome}</Text>
+                        <Text style={{ color: '#fff', fontSize: 18 }}>{l.user_nome}</Text>
                       </Body>
-                      
+
                     </ListItem>
                   ))
                 }
               </List>
               <Button block style={styles.resposta} onPress={() => {
-                  this.carregaUsuarios(this)
-                }
-                }>
-                  <Text  style={{ fontSize: 16, color: '#404040' }} >Atualizar Usuários</Text>
-                </Button>
-              <Button  block style={[styles.resposta, { marginBottom: 20 }]} onPress={() => {
-                    
-                }}>
-                    <Text  style={{ fontSize: 16, color: '#404040' }} >X respostas, enviar</Text>
-                </Button>
+                this.salvarRespostas()
+              }}>
+                <Text style={{ fontSize: 16, color: '#404040' }} >Enviar respostas.</Text>
+              </Button>
+              <Button block style={styles.resposta} onPress={() => {
+                this.carregaUsuarios()
+              }
+              }>
+                <Text style={{ fontSize: 16, color: '#404040' }} >Atualizar Usuários</Text>
+              </Button>
             </Content >
-            </LinearGradient>
-        
-          </Container>
+          </LinearGradient>
+
+        </Container>
       );
     }
     else {
@@ -142,7 +197,7 @@ const styles = StyleSheet.create({
   resposta: {
     marginTop: 30,
     borderRadius: 30,
-    marginBottom: -20,
+    marginBottom: 10,
     paddingTop: 30,
     paddingBottom: 30,
     backgroundColor: '#fff'

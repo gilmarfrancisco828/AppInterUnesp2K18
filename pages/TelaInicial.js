@@ -49,22 +49,23 @@ class TelaInicial extends React.Component {
     asyncResps();
 
   }
-  salvarRespostas() {
+  saveAnswers(contexto) {
     AsyncStorage.getItem(`@inter:forms_answers`).then((data) => {
-      this.setState({
+      console.log(JSON.parse(data))
+      contexto.setState({
         loading: true,
       });
-      if (data.length && this.saveAnswers(data)) {
-        AsyncStorage.removeItem(`@inter:forms_answers`);
-        this.setState({
+      if (data != null && data.length && this.sendAnswers(data)) {
+        contexto.setState({
           qtdRespostas: 0
         })
         return true;
       }
       else {
-        this.setState({
+        contexto.setState({
           loading: false,
         });
+        return false;
       }
     }).catch(error => {
       alert("Não foi possível enviar as respostas, verifique a conexão com a internet.")
@@ -93,15 +94,16 @@ class TelaInicial extends React.Component {
         alert(error);
       });
   }
-  saveAnswers(data) {
+  sendAnswers(data) {
     console.log("Tentando salvar respostas.")
-    axios.post(consts.SERVER_API + "form/resps", {
+    axios.post(consts.SERVER_API + "form/answer", {
       params: {
         answers: data,
       }
     })
       .then(function (u) {
         alert("Respostas salvas com sucesso.")
+        AsyncStorage.removeItem(`@inter:forms_answers`);
         return true;
       })
       .catch(function (error) {
@@ -120,7 +122,6 @@ class TelaInicial extends React.Component {
       Roboto: require("native-base/Fonts/Roboto.ttf"),
       Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf")
     });
-    this.setState({ interviewers: this.state.interviewers });
     this.niceTransition();
   }
   static navigationOptions = { title: 'Welcome', header: null };
@@ -139,16 +140,16 @@ class TelaInicial extends React.Component {
                 style={styles.logo} />
               <List style={styles.listUsers}>
                 <ListItem itemHeader first center>
-                  <Text style={{ color: '#fff', fontSize: 30 }}>Selecione o usuário</Text>
+                  <Text style={{ color: '#fff', fontSize: 30 }}>Selecione o Entrevistador</Text>
                 </ListItem>
                 {
                   this.state.interviewers.map((l) => (
 
                     <ListItem avatar
-                      key={l.user_cod}
+                      key={l._id}
 
                       onPress={() => {
-                        AsyncStorage.setItem('@inter:selectedUser', String(l.user_cod)).then(
+                        AsyncStorage.setItem('@inter:selectedInterviewer', String(l._id)).then(
                           this.props.navigation.navigate('Atleticas')
                         ).catch(error => {
                           console.log(error);
@@ -159,23 +160,22 @@ class TelaInicial extends React.Component {
                         <Thumbnail source={require('../assets/img/profile.png')} />
                       </Left>
                       <Body>
-                        <Text style={{ color: '#fff', fontSize: 18 }}>{l.user_nome}</Text>
+                        <Text style={{ color: '#fff', fontSize: 18 }}>{l.name}</Text>
                       </Body>
-
                     </ListItem>
                   ))
                 }
               </List>
               <Button block style={styles.resposta} onPress={() => {
-                this.salvarRespostas()
+                this.saveAnswers(this)
               }}>
                 <Text style={{ fontSize: 16, color: '#404040' }} >Enviar respostas.</Text>
               </Button>
               <Button block style={styles.resposta} onPress={() => {
-                this.carregaUsuarios()
+                this.loadInterviewers(this)
               }
               }>
-                <Text style={{ fontSize: 16, color: '#404040' }} >Atualizar Usuários</Text>
+                <Text style={{ fontSize: 16, color: '#404040' }} >Atualizar Entrevistadores</Text>
               </Button>
             </Content >
           </LinearGradient>

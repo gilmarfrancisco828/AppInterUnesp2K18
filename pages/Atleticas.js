@@ -10,27 +10,27 @@ class TelaAtleticas extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      atleticas: [],
+      athletics: [],
       loading: true
     };
-    const asyncAtletics = async () => {
+    const asyncAthletics = async () => {
       try {
-        let resultAtletics = await AsyncStorage.getItem('@inter:atleticas');
-        if (resultAtletics !== null) {
+        let resultAthletics = await AsyncStorage.getItem('@inter:athletics');
+        if (resultAthletics !== null) {
           this.setState({
-            atleticas: JSON.parse(resultAtletics)
+            athletics: JSON.parse(resultAthletics)
           });
           console.log('Já tinha atléticas salvos')
         }
-        else if (resultAtletics == null) {
+        else if (resultAthletics == null) {
           this.carregaAtleticas(this)
         };
-        return resultAtletics;
+        return resultAthletics;
       } catch (error) {
         console.log(error)
       }
     }
-    asyncAtletics();
+    asyncAthletics();
 
   }
   niceTransition() {
@@ -48,8 +48,8 @@ class TelaAtleticas extends React.Component {
     })
       .then(function (u) {
         console.log("Requisitou atléticas da WebService.")
-        AsyncStorage.setItem('@inter:atleticas', JSON.stringify(u.data));
-        contexto.setState({ atleticas: u.data }, function () {
+        AsyncStorage.setItem('@inter:athletics', JSON.stringify(u.data));
+        contexto.setState({ athletics: u.data }, function () {
           console.log(u.data);
         });
       })
@@ -63,7 +63,7 @@ class TelaAtleticas extends React.Component {
       Roboto: require("native-base/Fonts/Roboto.ttf"),
       Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf")
     });
-    this.setState({ atleticas: this.state.atleticas });
+    this.setState({ athletics: this.state.athletics });
     this.niceTransition();
   }
   static navigationOptions = {
@@ -90,13 +90,13 @@ class TelaAtleticas extends React.Component {
             
             <Col size={5}></Col>
             <Col scrollEnabled={true} size={90}>
-              <List scrollEnabled={true} style={styles.listAtletics}>
+              <List scrollEnabled={true} style={styles.listAthletics}>
                 {
-                  this.state.atleticas.map((l) => (
+                  this.state.athletics.map((l) => (
                     <ListItem avatar
-                      key={l.atle_cod}
+                      key={l._id}
                       onPress={() => {
-                        AsyncStorage.setItem('@inter:selectedAtletica', String(l.atle_cod)).then(
+                        AsyncStorage.setItem('@inter:selectedAthletic', String(l._id)).then(
                           this.props.navigation.navigate('Questionarios')
                         ).catch(error => {
                           console.log(error);
@@ -104,19 +104,15 @@ class TelaAtleticas extends React.Component {
                       }
                       }>
                       <Left>
-                        <Thumbnail source={{ uri: l.atle_img }} />
+                        <Thumbnail source={{ uri: l.img }} />
                       </Left>
                       <Body>
-                        <Text style={{ color:'#fff', fontSize: 18 }}>{l.atle_nome}</Text>
+                        <Text style={{ color:'#fff', fontSize: 18 }}>{l.name}</Text>
                       </Body>
                     </ListItem>
 
-
                   ))
-                }
-                
-                  
-                
+                }                
               </List>
                <Button block style={styles.resposta} onPress={() => {
                     this.carregaAtleticas(this)
@@ -181,7 +177,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     padding: 10
   },
-  listAtletics: {
+  listAthletics: {
     width: '100%',
   }
 });

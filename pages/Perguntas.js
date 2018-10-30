@@ -12,8 +12,8 @@ class questions extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedUser: null,
-      selectedAtletica: null,
+      selectedInterviewer: null,
+      selectedAthletic: null,
       selectedForm: this.props.navigation.state.params.selectedForm,
       checked: false,
       questionario: null,
@@ -22,9 +22,9 @@ class questions extends React.Component {
       loading: true,
       qtdcorrects: 0,
     };
-    AsyncStorage.getItem(`@inter:selectedAtletica`).then((data) => {
+    AsyncStorage.getItem(`@inter:selectedAthletic`).then((data) => {
       this.setState({
-        selectedAtletica: data,
+        selectedAthletic: data,
       });
       return true;
     }).catch(error => {
@@ -32,9 +32,9 @@ class questions extends React.Component {
       return false;
     });
 
-    AsyncStorage.getItem(`@inter:selectedUser`).then((data) => {
+    AsyncStorage.getItem(`@inter:selectedInterviewer`).then((data) => {
       this.setState({
-        selectedUser: data,
+        selectedInterviewer: data,
       });
       return true;
     }).catch(error => {
@@ -45,11 +45,10 @@ class questions extends React.Component {
     AsyncStorage.getItem('@inter:forms').then((data) => {
       if (data != null) {
         data = JSON.parse(data);
-        // console.log(data[this.state.selectedForm].questions.length);
-        if (data[this.state.selectedForm].questions.length > 0) {
-          let qtd = Math.floor(data[this.state.selectedForm].questions.length * 0.8);
-          if (qtd == 0) qtd = 1;
-          data[this.state.selectedForm].questions = this.getRandomSlice(data[this.state.selectedForm].questions, qtd);
+        console.log(data[this.state.selectedForm].questions);
+        let len = data[this.state.selectedForm].questions.length;
+        if (len > 0) {
+          data[this.state.selectedForm].questions = this.getRandomSlice(data[this.state.selectedForm].questions, len < 3 ? len : 3);
           this.setState({
             form: data[this.state.selectedForm],
             loading: false,
@@ -106,8 +105,8 @@ class questions extends React.Component {
         "datetime": this.getDateTime(),
         "form": this.state.form._id,
         "answers": this.state.form_resps,
-        "atletich": this.state.selectedAtletica,
-        "interviewer": this.state.selectedUser,
+        "athletic": this.state.selectedAthletic,
+        "interviewer": this.state.selectedInterviewer,
       }
       let resps = []
       if (data != null) {

@@ -31,12 +31,8 @@ class Resultados extends React.Component {
             this.setState({ back1: '#348f50', back2: '#56b4d3',  badge: false});
             return "Parabéns, você gabaritou!";
         }
-        if (res >= 0.5) {
-            this.setState({ back1: '#348f50', back2: '#56b4d3',  badge: false});
-            return "Você acertou " + String(res * 100) + "%, parabéns!";
-        }
         else {
-            return "Você acertou " + String(res * 100) + "%, mais sorte da próxima vez!";
+            return "Você acertou " + String(parseFloat(res * 100).toFixed(2)) + "%, mais sorte da próxima vez!";
         }
     }
     async componentWillMount() {

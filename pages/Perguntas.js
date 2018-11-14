@@ -132,7 +132,7 @@ class questions extends React.Component {
   }
   salvarResposta(idQuestion, idPerguntaAtual, idAnswer) {
     let resps = this.state.form_resps
-    let correct = 0
+    let correct = false
     this.state.form.questions[idPerguntaAtual].answers.map((r) => {
       if (r._id == idAnswer) {
         if (r.correct) {

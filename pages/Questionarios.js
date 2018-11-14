@@ -94,9 +94,11 @@ class TelaForms extends React.Component {
                                         <ListItem avatar
                                             key={f._id}
                                             onPress={() => {
-                                                this.props.navigation.navigate('Perguntas', {
-                                                    selectedForm: index
-                                                })
+                                                AsyncStorage.setItem('@inter:selectedForm', String(index)).then(
+                                                    this.props.navigation.navigate('Atleticas')
+                                                  ).catch(error => {
+                                                    console.log(error)
+                                                  })
                                             }
                                             }>
                                             <Body>

@@ -11,7 +11,8 @@ class TelaAtleticas extends React.Component {
     super(props);
     this.state = {
       athletics: [],
-      loading: true
+      loading: true,
+      selectedForm: 0,
     };
     const asyncAthletics = async () => {
       try {
@@ -30,7 +31,19 @@ class TelaAtleticas extends React.Component {
         console.log(error)
       }
     }
+    const asyncSelectedForm = async () => {
+      try {
+        let sForm = await AsyncStorage.getItem('@inter:selectedForm');
+        this.setState({
+          selectedForm: parseInt(sForm)
+        })
+        console.log('Pegou id do form do async');
+      } catch (error) {
+        console.log(error)
+      }
+    }
     asyncAthletics();
+    asyncSelectedForm();
 
   }
   niceTransition() {
@@ -97,7 +110,9 @@ class TelaAtleticas extends React.Component {
                       key={l._id}
                       onPress={() => {
                         AsyncStorage.setItem('@inter:selectedAthletic', String(l._id)).then(
-                          this.props.navigation.navigate('Questionarios')
+                          this.props.navigation.navigate('Perguntas', {
+                            selectedForm: this.state.selectedForm
+                        })
                         ).catch(error => {
                           console.log(error);
                         });

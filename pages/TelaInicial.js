@@ -51,11 +51,11 @@ class TelaInicial extends React.Component {
   }
   saveAnswers(contexto) {
     AsyncStorage.getItem(`@inter:forms_answers`).then((data) => {
-      console.log(JSON.parse(data))
+      // console.log(JSON.parse(data))
       contexto.setState({
         loading: true,
       });
-      if (data != null && data.length && this.sendAnswers(data)) {
+      if (data != null && data.length && this.sendAnswers(JSON.parse(data))) {
         contexto.setState({
           qtdRespostas: 0
         })
@@ -150,7 +150,7 @@ class TelaInicial extends React.Component {
 
                       onPress={() => {
                         AsyncStorage.setItem('@inter:selectedInterviewer', String(l._id)).then(
-                          this.props.navigation.navigate('Atleticas')
+                          this.props.navigation.navigate('Questionarios')
                         ).catch(error => {
                           console.log(error);
                         });

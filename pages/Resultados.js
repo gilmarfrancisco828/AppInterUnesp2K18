@@ -86,16 +86,16 @@ class Resultados extends React.Component {
                             </Card>
                             <Card transparent >
                                 <Button style={styles.resposta}  block  onPress={() => {
-                                    this.props.navigation.navigate('Questionarios');
+                                    this.props.navigation.navigate('Atleticas');
                                 }}>
-                                    <Text style={{ fontSize: 16, color: this.state.back1 }} >Selecionar Questionário</Text>
+                                    <Text style={{ fontSize: 16, color: this.state.back1 }} >Selecionar Atlética</Text>
                                 </Button>
                             </Card>
                             <Card transparent >
                                 <Button  block style={styles.resposta} onPress={() => {
-                                    this.props.navigation.navigate('Atleticas');
+                                    this.props.navigation.navigate('Home');
                                 }}>
-                                    <Text  style={{ fontSize: 16, color: this.state.back1 }} >Selecionar Atlética</Text>
+                                    <Text  style={{ fontSize: 16, color: this.state.back1 }} >Página Inicial</Text>
                                 </Button>
                             </Card>
                         </Col>
